@@ -1,15 +1,19 @@
 #include "view/RobotGridWidget.h"
 
+#include <QCoreApplication>
+#include <QDir>
 #include <QGridLayout>
 #include <QLabel>
 #include <QResizeEvent>
 #include <QSizePolicy>
 
 RobotGridWidget::RobotGridWidget(QWidget* parent)
-    : QWidget(parent), robotIcon("assets/robot-icon.png") {
-    if (robotIcon.isNull()) {
-        robotIcon.load("../assets/robot-icon.png");
-    }
+    : QWidget(parent) {
+
+    QString appDir = QCoreApplication::applicationDirPath();
+    QString iconPath = QDir(appDir).filePath("../assets/robot-icon.png");
+
+    robotIcon.load(iconPath);
 
     setFixedSize(250, 250);
 
@@ -52,10 +56,13 @@ void RobotGridWidget::updateRobotIcon() {
     }
 
     QLabel* robotCell = cells[y][x];
-    robotCell->setPixmap(robotIcon.scaled(
-        robotCell->contentsRect().size(),
-        Qt::KeepAspectRatio,
-        Qt::SmoothTransformation));
+
+    if (!robotIcon.isNull()) {
+        robotCell->setPixmap(robotIcon.scaled(
+            robotCell->contentsRect().size(),
+            Qt::KeepAspectRatio,
+            Qt::SmoothTransformation));
+    }
 }
 
 void RobotGridWidget::resizeEvent(QResizeEvent* event) {

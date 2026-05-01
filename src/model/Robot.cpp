@@ -26,20 +26,25 @@ const std::vector<Point2D>& Robot::getHistory() const {
 }
 
 void Robot::moveUp() {
-    moveTo(x, y - 1);
+    int step = history.size() >= 11 ? 2 : 1;
+    moveTo(x, y - step);
 }
 
 void Robot::moveDown() {
-    moveTo(x, y + 1);
+    int step = history.size() >= 11 ? 2 : 1;
+    moveTo(x, y + step);
 }
 
 void Robot::moveLeft() {
-    moveTo(x - 1, y);
+    int step = history.size() >= 11 ? 2 : 1;
+    moveTo(x - step, y);
 }
 
 void Robot::moveRight() {
-    moveTo(x + 1, y);
+    int step = history.size() >= 11 ? 2 : 1;
+    moveTo(x + step, y);
 }
+
 
 void Robot::undo() {
     if (!canUndo()) {
